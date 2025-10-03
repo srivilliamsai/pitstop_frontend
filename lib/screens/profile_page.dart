@@ -10,58 +10,46 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: const Text('My Profile'),
-        foregroundColor: Colors.white,
-        centerTitle: true,
+        title: const Text('Profile', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Profile Avatar
-            CircleAvatar(
-              radius: 50,
-              backgroundColor: AppColors.primary.withOpacity(0.1),
-              backgroundImage: const AssetImage('assets/images/profile_avatar.png'), // Optional
-              child: const Icon(Icons.person, size: 60, color: AppColors.primary),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          const CircleAvatar(
+            radius: 36,
+            backgroundColor: Colors.white,
+            child: Icon(Icons.person, size: 60, color: AppColors.primary),
+          ),
+          const SizedBox(height: 12),
+          const Center(
+            child: Text(
+              'Guest User',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
-            const SizedBox(height: 20),
-            // Name
-            const Text(
-              'Sri Villiam Sai',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 24),
+          Card(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: const BorderSide(color: AppColors.border),
             ),
-            const SizedBox(height: 5),
-            const Text(
-              'sri@example.com',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+            child: Column(
+              children: const [
+                ListTile(
+                  leading: Icon(Icons.history, color: AppColors.primary),
+                  title: Text('Order history'),
+                ),
+                Divider(height: 1),
+                ListTile(
+                  leading: Icon(Icons.settings, color: AppColors.primary),
+                  title: Text('Settings'),
+                ),
+              ],
             ),
-            const SizedBox(height: 30),
-            // List of actions
-            ListTile(
-              leading: const Icon(Icons.history, color: AppColors.primary),
-              title: const Text('My Orders'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {},
-            ),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.settings, color: AppColors.primary),
-              title: const Text('Settings'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {},
-            ),
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.logout, color: Colors.red),
-              title: const Text('Logout'),
-              onTap: () {
-                // Add logout logic here
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
