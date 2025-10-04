@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'service_details_page.dart';
+import 'fuel_dashboard_page.dart'; 
 import 'orders_page.dart';
 import 'profile_page.dart';
 
@@ -33,13 +33,13 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: Colors.red,
+        selectedItemColor: Colors.redAccent,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Explore"),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt), label: "Orders"),
+          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: "Orders"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-/// ✅ Home Page Content (previous HomePage UI moved here)
+/// ✅ Home Page Content (separated for cleaner navigation)
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});
 
@@ -58,8 +58,10 @@ class HomeContent extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        title: const Text("Welcome to PitStop",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title: const Text(
+          "Welcome to PitStop",
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
         centerTitle: false,
       ),
       body: SingleChildScrollView(
@@ -79,17 +81,26 @@ class HomeContent extends StatelessWidget {
                   const Icon(Icons.search, color: Colors.grey),
                   const SizedBox(width: 8),
                   Expanded(
-                      child: Text("Search fuel stations, hotels...",
-                          style: TextStyle(color: Colors.grey.shade600))),
+                    child: Text(
+                      "Search fuel stations, hotels...",
+                      style: TextStyle(color: Colors.grey.shade600),
+                    ),
+                  ),
                 ],
               ),
             ),
+
             const SizedBox(height: 20),
 
-            // 🚗 Services Section
-            const Text("Our Services",
-                style: TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
+            // 🚗 Our Services
+            const Text(
+              "Our Services",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
             const SizedBox(height: 12),
 
             SizedBox(
@@ -108,24 +119,30 @@ class HomeContent extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // 🏆 Recommended Section
-            const Text("Recommended Stations",
-                style: TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
+            // 🏆 Recommended Stations
+            const Text(
+              "Recommended Stations",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 12),
 
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset("lib/assets/images/banner1.jpg",
-                  fit: BoxFit.cover, width: double.infinity, height: 150),
+              child: Image.asset(
+                "lib/assets/images/banner1.jpg",
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: 150,
+              ),
             ),
 
             const SizedBox(height: 20),
 
-            // 🛢 Nearby Fuel Stations Section
-            const Text("Nearby Fuel Stations",
-                style: TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
+            // ⛽ Nearby Fuel Stations
+            const Text(
+              "Nearby Fuel Stations",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 12),
 
             Column(
@@ -159,7 +176,7 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  // 🔧 Service Card
+  /// 🔧 Service Card
   static Widget _serviceCard(String title, String iconPath) {
     return Container(
       width: 90,
@@ -174,26 +191,29 @@ class HomeContent extends StatelessWidget {
         children: [
           Image.asset(iconPath, height: 40, width: 40),
           const SizedBox(height: 8),
-          Text(title,
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+          ),
         ],
       ),
     );
   }
 
-  // ⛽ Fuel Station Card (navigates to details page)
-  static Widget _stationCard(BuildContext context, String name, String distance,
-      double rating, String iconPath) {
+  /// ⛽ Fuel Station Card (Navigates to Fuel Dashboard Page)
+  static Widget _stationCard(
+    BuildContext context,
+    String name,
+    String distance,
+    double rating,
+    String iconPath,
+  ) {
     return InkWell(
       onTap: () {
+        // 🔥 Navigate to the new Fuel Dashboard Page
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (_) => ServiceDetailsPage(
-                    stationName: name,
-                    distance: distance,
-                    rating: rating,
-                  )),
+          MaterialPageRoute(builder: (_) => const FuelDashboardPage()),
         );
       },
       child: Card(
@@ -205,16 +225,19 @@ class HomeContent extends StatelessWidget {
             backgroundColor: Colors.red.shade50,
             child: Image.asset(iconPath, height: 28, width: 28),
           ),
-          title: Text(name,
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+          title: Text(
+            name,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          ),
           subtitle: Text(distance),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(Icons.star, color: Colors.amber, size: 18),
-              Text(rating.toString(),
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
+              Text(
+                rating.toString(),
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
             ],
           ),
         ),

@@ -1,18 +1,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.pitstop_frontend">
 
-    <!-- Permissions for location + internet -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- ✅ Permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
+
+    <!-- Optional: Improve map accuracy -->
+    <uses-feature android:name="android.hardware.location.gps" />
+    <uses-feature android:name="android.hardware.location.network" />
 
     <application
-        android:label="pitstop_frontend"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:label="PitStop"
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
 
-        <!-- Main Flutter Activity -->
+        <!-- 🏁 Main Flutter Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -27,9 +34,10 @@
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
 
+            <!-- App entry point -->
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -38,17 +46,19 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <!-- ✅ Google Maps API Key -->
+        <!-- ✅ Google Maps API Key (Replace with your real key) -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_ANDROID_GOOGLE_MAPS_API_KEY"/>
+            android:value="YOUR_ANDROID_GOOGLE_MAPS_API_KEY" />
+
     </application>
 
-    <!-- Queries for process text (required for Flutter engine) -->
+    <!-- Required query intent for Flutter plugins -->
     <queries>
         <intent>
-            <action android:name="android.intent.action.PROCESS_TEXT"/>
-            <data android:mimeType="text/plain"/>
+            <action android:name="android.intent.action.PROCESS_TEXT" />
+            <data android:mimeType="text/plain" />
         </intent>
     </queries>
+
 </manifest>

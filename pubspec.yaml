@@ -6,35 +6,34 @@ version: 1.0.0+1
 environment:
   sdk: '>=3.4.0 <4.0.0'
 
-# Dependencies (sorted alphabetically for clarity)
 dependencies:
   carousel_slider: ^5.1.1
   cupertino_icons: ^1.0.8
-  firebase_auth: ^5.7.0
-  firebase_core: ^3.15.2
+  firebase_auth: ^6.1.0
+  firebase_core: ^4.1.1
+  fl_chart: ^1.1.1
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.4
   flutter_polyline_points: ^3.1.0
+  google_maps_flutter: ^2.9.0
   google_sign_in: ^7.2.0
   location: ^8.0.1
   sign_in_with_apple: ^7.0.1
-  google_maps_flutter: ^2.9.0
+  url_launcher: ^6.3.1   
 
 dev_dependencies:
   flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
 
-  # Asset folders (all files under these dirs will be bundled automatically)
   assets:
     - lib/assets/images/
     - lib/assets/fonts/
 
-  # Font definitions for Roboto
   fonts:
     - family: Roboto
       fonts:
@@ -44,9 +43,8 @@ flutter:
         - asset: lib/assets/fonts/Roboto-Bold.ttf
           weight: 700
 
-# App Icon configuration
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "lib/assets/images/app_icon.png" # replace with your actual logo file
-  remove_alpha_ios: true   # removes transparency for iOS (App Store requirement)
+  image_path: "lib/assets/images/app_icon.png"
+  remove_alpha_ios: true
