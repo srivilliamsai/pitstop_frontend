@@ -1,246 +1,191 @@
+// lib/screens/home_page.dart
 import 'package:flutter/material.dart';
-import 'fuel_dashboard_page.dart'; 
-import 'orders_page.dart';
-import 'profile_page.dart';
+import 'package:pitstop_frontend/screens/fuel_dashboard_page.dart';
+import 'package:pitstop_frontend/theme/theme.dart';
+import '../widgets/fuel_station_card.dart';
+import '../widgets/service_icon.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _pages = [
-    const HomeContent(),
-    const Center(child: Text("Explore Page Coming Soon")),
-    const OrdersPage(),
-    const ProfilePage(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // In a real app, this data would come from a provider or API.
+    const double currentPetrolPrice = 102.75; // Example dynamic price for Chennai
+
     return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: Colors.redAccent,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Explore"),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: "Orders"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-        ],
-      ),
+      body: _HomeContent(petrolPrice: currentPetrolPrice),
     );
   }
 }
 
-/// ✅ Home Page Content (separated for cleaner navigation)
-class HomeContent extends StatelessWidget {
-  const HomeContent({super.key});
+// This private widget keeps the HomePage code clean and organized.
+class _HomeContent extends StatelessWidget {
+  final double petrolPrice;
+  const _HomeContent({required this.petrolPrice});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        title: const Text(
-          "Welcome to PitStop",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: false,
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        children: [
+          _buildHeader(context),
+          const SizedBox(height: 24),
+          _buildPriceCompareCard(context, petrolPrice),
+          const SizedBox(height: 24),
+          _buildSectionTitle(context, "Our Services"),
+          _buildServicesGrid(),
+          const SizedBox(height: 24),
+          _buildSectionTitle(context, "Bunk Around You"),
+          _buildNearbyBunks(context),
+        ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 🔍 Search bar
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.grey.shade200,
-              ),
-              child: Row(
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        children: [
+          const CircleAvatar(
+            backgroundImage: AssetImage('lib/assets/images/profile_avatar.png'),
+            radius: 24,
+          ),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Good Morning!",
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16)),
+              const SizedBox(height: 2),
+              const Text("Madhavaram, Chennai",
+                  style: TextStyle(color: AppColors.subtext)),
+            ],
+          ),
+          const Spacer(),
+          const Icon(Icons.notifications_none,
+              color: AppColors.text, size: 28),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPriceCompareCard(BuildContext context, double price) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Card(
+        color: AppColors.primary,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Icon(Icons.search, color: Colors.grey),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      "Search fuel stations, hotels...",
-                      style: TextStyle(color: Colors.grey.shade600),
-                    ),
+                  const Text("Petrol",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
+                  Text(
+                    "₹${price.toStringAsFixed(2)}",
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // 🚗 Our Services
-            const Text(
-              "Our Services",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            SizedBox(
-              height: 100,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  _serviceCard("Fuel", "lib/assets/images/fuel.png"),
-                  _serviceCard("Emergency", "lib/assets/images/pickup.png"),
-                  _serviceCard("Supermarket", "lib/assets/images/supermarket.png"),
-                  _serviceCard("Hotels", "lib/assets/images/hotel.png"),
-                  _serviceCard("Tyre", "lib/assets/images/tyre.png"),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // 🏆 Recommended Stations
-            const Text(
-              "Recommended Stations",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                "lib/assets/images/banner1.jpg",
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: 150,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // ⛽ Nearby Fuel Stations
-            const Text(
-              "Nearby Fuel Stations",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-
-            Column(
-              children: [
-                _stationCard(
-                  context,
-                  "Indian Oil Pump",
-                  "2.1 km away",
-                  4.5,
-                  "lib/assets/images/fuel_icon.png",
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const FuelDashboardPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: AppColors.primary,
                 ),
-                _stationCard(
-                  context,
-                  "HP Petrol Station",
-                  "3.8 km away",
-                  4.2,
-                  "lib/assets/images/fuel_icon.png",
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.compare_arrows),
+                    SizedBox(width: 8),
+                    Text("Compare Prices"),
+                  ],
                 ),
-                _stationCard(
-                  context,
-                  "Bharat Petroleum",
-                  "5.0 km away",
-                  4.8,
-                  "lib/assets/images/fuel_icon.png",
-                ),
-              ],
-            ),
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  /// 🔧 Service Card
-  static Widget _serviceCard(String title, String iconPath) {
-    return Container(
-      width: 90,
-      margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildSectionTitle(BuildContext context, String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Text(title, style: Theme.of(context).textTheme.headlineSmall),
+    );
+  }
+
+  Widget _buildServicesGrid() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: GridView.count(
+        crossAxisCount: 4,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         children: [
-          Image.asset(iconPath, height: 40, width: 40),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-          ),
+          const ServiceIcon(
+              title: "Puncture", iconPath: 'lib/assets/images/tyre.png'),
+          const ServiceIcon(
+              title: "Towing", iconPath: 'lib/assets/images/pickup.png'),
+          const ServiceIcon(
+              title: "Fuel", iconPath: 'lib/assets/images/fuel.png'),
+          const ServiceIcon(
+              title: "Oil Refill",
+              iconPath: 'lib/assets/images/fuel_icon.png'),
         ],
       ),
     );
   }
 
-  /// ⛽ Fuel Station Card (Navigates to Fuel Dashboard Page)
-  static Widget _stationCard(
-    BuildContext context,
-    String name,
-    String distance,
-    double rating,
-    String iconPath,
-  ) {
-    return InkWell(
-      onTap: () {
-        // 🔥 Navigate to the new Fuel Dashboard Page
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const FuelDashboardPage()),
-        );
+  Widget _buildNearbyBunks(BuildContext context) {
+    final stations = [
+      {
+        "image": 'lib/assets/images/banner2.jpg',
+        "name": "Shell Petrol Bunk",
+        "rating": 4.5,
+        "location": "Madhavaram Milk Colony",
       },
-      child: Card(
-        margin: const EdgeInsets.only(bottom: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        elevation: 1,
-        child: ListTile(
-          leading: CircleAvatar(
-            backgroundColor: Colors.red.shade50,
-            child: Image.asset(iconPath, height: 28, width: 28),
-          ),
-          title: Text(
-            name,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-          ),
-          subtitle: Text(distance),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.star, color: Colors.amber, size: 18),
-              Text(
-                rating.toString(),
-                style: const TextStyle(fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-        ),
+      {
+        "image": 'lib/assets/images/banner1.jpg',
+        "name": "Indian Oil Pump",
+        "rating": 4.2,
+        "location": "Perambur",
+      },
+    ];
+
+    return SizedBox(
+      height: 250,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        itemCount: stations.length,
+        itemBuilder: (context, index) {
+          final station = stations[index];
+          return FuelStationCard(
+            imagePath: station['image'] as String,
+            name: station['name'] as String,
+            rating: station['rating'] as double,
+            location: station['location'] as String,
+          );
+        },
       ),
     );
   }
