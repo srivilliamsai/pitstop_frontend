@@ -6,27 +6,47 @@ version: 1.0.0+1
 environment:
   sdk: '>=3.4.0 <4.0.0'
 
+# -------------------------------------------------
+# 🧱 DEPENDENCIES
+# -------------------------------------------------
 dependencies:
-  carousel_slider: ^5.1.1
-  cupertino_icons: ^1.0.8
-  firebase_auth: ^6.1.0
-  firebase_core: ^4.1.1
-  fl_chart: ^1.1.1
   flutter:
     sdk: flutter
-  flutter_launcher_icons: ^0.14.4
-  flutter_polyline_points: ^3.1.0
-  google_maps_flutter: ^2.9.0
-  google_sign_in: ^7.2.0
-  location: ^8.0.1
-  sign_in_with_apple: ^7.0.1
-  url_launcher: ^6.3.1   
 
+  # --- UI & VISUALS ---
+  cupertino_icons: ^1.0.8
+  carousel_slider: ^5.1.1         # Newer and more stable
+  fl_chart: ^1.1.1                # Updated version for Flutter 3.24+
+
+  # --- STATE MANAGEMENT ---
+  provider: ^6.1.2                # Needed for ChangeNotifierProvider, AppTheme, etc.
+
+  # --- FIREBASE & AUTH ---
+  firebase_core: ^4.1.1           # Compatible with FlutterFire SDK 12.2.0
+  firebase_auth: ^6.1.0
+  google_sign_in: ^7.2.0
+  sign_in_with_apple: ^7.0.1
+
+  # --- LOCATION & MAPS ---
+  google_maps_flutter: ^2.7.0
+  location: ^8.0.1                # Avoids deprecated iOS methods
+  flutter_polyline_points: ^3.1.0
+
+  # --- UTILITIES ---
+  url_launcher: ^6.3.1
+
+# -------------------------------------------------
+# 🧰 DEVELOPMENT DEPENDENCIES
+# -------------------------------------------------
 dev_dependencies:
-  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
 
+# -------------------------------------------------
+# 🎨 FLUTTER CONFIGURATION
+# -------------------------------------------------
 flutter:
   uses-material-design: true
 
@@ -43,6 +63,9 @@ flutter:
         - asset: lib/assets/fonts/Roboto-Bold.ttf
           weight: 700
 
+# -------------------------------------------------
+# 🪞 APP ICON GENERATION
+# -------------------------------------------------
 flutter_launcher_icons:
   android: true
   ios: true
