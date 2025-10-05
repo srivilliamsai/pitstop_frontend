@@ -24,13 +24,9 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               const Text(
-                "India’s #1 Roadside Assistance & Fuel Delivery App",
+                "India’s #1 Roadside Assistance App",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.text,
-                ),
+                style: TextStyle(fontSize: 16, color: AppColors.text),
               ),
               const SizedBox(height: 50),
               TextField(
@@ -60,7 +56,6 @@ class LoginPage extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 12, color: AppColors.subtext),
               ),
-              const SizedBox(height: 20),
             ],
           ),
         ),

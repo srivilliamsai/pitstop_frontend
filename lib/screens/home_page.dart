@@ -1,45 +1,34 @@
-// lib/screens/home_page.dart
 import 'package:flutter/material.dart';
 import 'package:pitstop_frontend/screens/fuel_dashboard_page.dart';
 import 'package:pitstop_frontend/theme/theme.dart';
-import '../widgets/fuel_station_card.dart';
-import '../widgets/service_icon.dart';
+import 'package:pitstop_frontend/widgets/fuel_station_card.dart';
+import 'package:pitstop_frontend/widgets/service_icon.dart';
+import 'package:pitstop_frontend/screens/service_pages.dart';
+import 'package:pitstop_frontend/widgets/emergency_sos_button.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // In a real app, this data would come from a provider or API.
-    const double currentPetrolPrice = 102.75; // Example dynamic price for Chennai
-
     return Scaffold(
-      body: _HomeContent(petrolPrice: currentPetrolPrice),
-    );
-  }
-}
-
-// This private widget keeps the HomePage code clean and organized.
-class _HomeContent extends StatelessWidget {
-  final double petrolPrice;
-  const _HomeContent({required this.petrolPrice});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        children: [
-          _buildHeader(context),
-          const SizedBox(height: 24),
-          _buildPriceCompareCard(context, petrolPrice),
-          const SizedBox(height: 24),
-          _buildSectionTitle(context, "Our Services"),
-          _buildServicesGrid(),
-          const SizedBox(height: 24),
-          _buildSectionTitle(context, "Bunk Around You"),
-          _buildNearbyBunks(context),
-        ],
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          children: [
+            _buildHeader(context),
+            const SizedBox(height: 24),
+            const EmergencySosButton(),
+            const SizedBox(height: 24),
+            _buildPriceCompareCard(context),
+            const SizedBox(height: 24),
+            _buildSectionTitle(context, "Our Services"),
+            _buildServicesGrid(context),
+            const SizedBox(height: 24),
+            _buildSectionTitle(context, "Bunk Around You"),
+            _buildNearbyBunks(context),
+          ],
+        ),
       ),
     );
   }
@@ -57,26 +46,27 @@ class _HomeContent extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Good Morning!",
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16)),
-              const SizedBox(height: 2),
+              Text("Your Location", style: Theme.of(context).textTheme.bodySmall),
               const Text("Madhavaram, Chennai",
-                  style: TextStyle(color: AppColors.subtext)),
+                  style: TextStyle(fontWeight: FontWeight.bold)),
             ],
           ),
           const Spacer(),
-          const Icon(Icons.notifications_none,
-              color: AppColors.text, size: 28),
+          IconButton(
+            icon: const Icon(Icons.notifications_none,
+                color: AppColors.text, size: 28),
+            onPressed: () {},
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildPriceCompareCard(BuildContext context, double price) {
+  Widget _buildPriceCompareCard(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Card(
-        color: AppColors.primary,
+        color: const Color(0xFFFFF0F0),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -86,39 +76,21 @@ class _HomeContent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text("Petrol",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
-                  Text(
-                    "₹${price.toStringAsFixed(2)}",
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text("₹102.75",
+                      style: Theme.of(context).textTheme.headlineSmall),
                 ],
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const FuelDashboardPage()),
-                  );
-                },
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => FuelDashboardPage())),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: AppColors.primary,
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.compare_arrows),
-                    SizedBox(width: 8),
-                    Text("Compare Prices"),
-                  ],
-                ),
-              )
+                child: const Text("Compare Prices"),
+              ),
             ],
           ),
         ),
@@ -133,7 +105,7 @@ class _HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _buildServicesGrid() {
+  Widget _buildServicesGrid(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: GridView.count(
@@ -141,15 +113,52 @@ class _HomeContent extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          const ServiceIcon(
-              title: "Puncture", iconPath: 'lib/assets/images/tyre.png'),
-          const ServiceIcon(
-              title: "Towing", iconPath: 'lib/assets/images/pickup.png'),
-          const ServiceIcon(
-              title: "Fuel", iconPath: 'lib/assets/images/fuel.png'),
-          const ServiceIcon(
-              title: "Oil Refill",
-              iconPath: 'lib/assets/images/fuel_icon.png'),
+          ServiceIcon(
+            title: "Fuel",
+            iconPath: 'lib/assets/images/fuel.png',
+            onTap: () {
+              // TODO: Create a `mockFuelProviders` list in service_pages.dart
+            },
+          ),
+          ServiceIcon(
+            title: "Puncture",
+            iconPath: 'lib/assets/images/tyre.png',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ServicePlaceholderPage(
+                  title: "Puncture Shops",
+                  providers: mockPunctureShops,
+                ),
+              ),
+            ),
+          ),
+          ServiceIcon(
+            title: "Towing",
+            iconPath: 'lib/assets/images/pickup.png',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ServicePlaceholderPage(
+                  title: "Towing Services",
+                  providers: mockTowingServices,
+                ),
+              ),
+            ),
+          ),
+          ServiceIcon(
+            title: "EV Charge",
+            iconPath: 'lib/assets/images/ev_charge_icon.png',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ServicePlaceholderPage(
+                  title: "EV Charging Stations",
+                  providers: mockEvStations,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -161,13 +170,13 @@ class _HomeContent extends StatelessWidget {
         "image": 'lib/assets/images/banner2.jpg',
         "name": "Shell Petrol Bunk",
         "rating": 4.5,
-        "location": "Madhavaram Milk Colony",
+        "location": "Madhavaram"
       },
       {
         "image": 'lib/assets/images/banner1.jpg',
         "name": "Indian Oil Pump",
         "rating": 4.2,
-        "location": "Perambur",
+        "location": "Perambur"
       },
     ];
 
