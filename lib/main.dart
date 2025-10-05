@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'screens/login_page.dart';
-import 'screens/main_page.dart'; // New main navigation page
-import 'theme/theme.dart';
-import 'providers/app_provider.dart';
+import 'package:pitstop_frontend/screens/login_page.dart';
+import 'package:pitstop_frontend/screens/main_page.dart';
+import 'package:pitstop_frontend/theme/theme.dart';
+import 'package:pitstop_frontend/providers/app_provider.dart';
 
 void main() {
   runApp(const PitStopApp());
