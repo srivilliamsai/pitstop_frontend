@@ -28,12 +28,13 @@ dependencies:
   sign_in_with_apple: ^7.0.1
 
   # --- LOCATION & MAPS ---
-  google_maps_flutter: ^2.7.0
+  google_maps_flutter: ^2.13.1
   location: ^8.0.1                # Avoids deprecated iOS methods
   flutter_polyline_points: ^3.1.0
 
   # --- UTILITIES ---
   url_launcher: ^6.3.1
+  google_fonts: ^6.3.2
 
 # -------------------------------------------------
 # 🧰 DEVELOPMENT DEPENDENCIES
