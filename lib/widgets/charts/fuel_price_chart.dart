@@ -10,7 +10,7 @@ class FuelPriceChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final petrolPrices = priceHistory['Petrol'] ?? [];
-    
+
     return AspectRatio(
       aspectRatio: 1.7,
       child: BarChart(
@@ -19,7 +19,13 @@ class FuelPriceChart extends StatelessWidget {
           barTouchData: BarTouchData(enabled: false),
           titlesData: FlTitlesData(
             show: true,
-            bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, getTitlesWidget: _bottomTitles, reservedSize: 22)),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                getTitlesWidget: _bottomTitles,
+                reservedSize: 22,
+              ),
+            ),
             leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
             topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
             rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -48,21 +54,37 @@ class FuelPriceChart extends StatelessWidget {
     const style = TextStyle(fontSize: 10);
     String text;
     switch (value.toInt()) {
-      case 0: text = 'Mon'; break;
-      case 1: text = 'Tue'; break;
-      case 2: text = 'Wed'; break;
-      case 3: text = 'Thu'; break;
-      case 4: text = 'Fri'; break;
-      case 5: text = 'Sat'; break;
-      case 6: text = 'Sun'; break;
-      default: text = ''; break;
+      case 0:
+        text = 'Mon';
+        break;
+      case 1:
+        text = 'Tue';
+        break;
+      case 2:
+        text = 'Wed';
+        break;
+      case 3:
+        text = 'Thu';
+        break;
+      case 4:
+        text = 'Fri';
+        break;
+      case 5:
+        text = 'Sat';
+        break;
+      case 6:
+        text = 'Sun';
+        break;
+      default:
+        text = '';
+        break;
     }
-    
-    // --- FIX: The incorrect 'side' parameter has been removed ---
+
     return SideTitleWidget(
-      axisSide: meta.axisSide, // This is correct for the new version
-      space: 4.0, 
-      child: Text(text, style: style)
+      meta: meta,
+      // axisSide: meta.axisSide, // <-- THIS LINE WAS REMOVED. It's no longer needed.
+      space: 4.0,
+      child: Text(text, style: style),
     );
   }
 }

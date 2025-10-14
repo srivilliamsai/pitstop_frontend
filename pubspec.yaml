@@ -17,21 +17,21 @@ dependencies:
   provider: ^6.1.2
 
   # --- FIREBASE & AUTH (Compatible Set) ---
-  firebase_core: ^3.1.1
-  firebase_auth: ^5.1.1
-  google_sign_in: ^6.2.1
-  sign_in_with_apple: ^6.0.0
+  firebase_core: ^4.2.0
+  firebase_auth: ^6.1.1
+  google_sign_in: ^7.2.0
+  sign_in_with_apple: ^7.0.1
 
   # --- UI & VISUALS ---
   cupertino_icons: ^1.0.8
   google_fonts: ^6.2.1
-  carousel_slider: ^4.2.1
-  fl_chart: ^0.68.0
+  carousel_slider: ^5.1.1
+  fl_chart: ^1.1.1
   
   # --- MAPS & LOCATION ---
   google_maps_flutter: ^2.7.0
-  location: ^6.0.2
-  flutter_polyline_points: ^2.0.0
+  location: ^8.0.1
+  flutter_polyline_points: ^3.1.0
 
   # --- UTILITIES ---
   url_launcher: ^6.3.0
@@ -43,8 +43,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
-  flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
 
 # -------------------------------------------------
 # 🎨 FLUTTER CONFIGURATION

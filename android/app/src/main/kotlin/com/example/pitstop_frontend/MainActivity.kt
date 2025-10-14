@@ -1,4 +1,4 @@
-package com.example.pitstop_frontend
+package com.pitstop.androidapp
 
 import io.flutter.embedding.android.FlutterActivity
 
