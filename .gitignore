@@ -43,3 +43,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+android/app/src/main/AndroidManifest.xml
+ios/Runner/AppDelegate.swift
+ios/Podfile
+ios/Runner/Info.plist
+ios/Runner/GoogleService-Info.plist
