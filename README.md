@@ -1,178 +1,212 @@
-🚗 PitStop Frontend — On-Demand Roadside Assistance App
+# 🚗 PitStop Frontend
 
-🧭 Overview
+> **Next-Generation On-Demand Roadside Assistance App** \> Fuel Delivery • Emergency Support • EV Charging • Smart Navigation
 
-PitStop is a next-generation on-demand roadside assistance and fuel delivery application built with Flutter.
-It provides quick access to emergency vehicle services like fuel delivery, towing, battery jumpstart, EV charging, puncture repair, and more — all visualized on an interactive Apple-style map UI with real-time location tracking.
+-----
 
-The app emphasizes simplicity, speed, and precision, following Apple Human Interface Guidelines and Hick’s Law to reduce decision complexity for users under stress situations (like car breakdowns).
+## 🧭 Overview
 
-⸻
+**PitStop** is a modern **Flutter-based mobile application** designed to provide instant on-road assistance for drivers — whether you’re out of fuel, have a flat tire, or need emergency medical help.  
+The app delivers **real-time location services**, **quick service booking**, and a **Zomato-style UI** built with **Apple-inspired design principles** and **Hick’s Law–optimized interactions**.
 
-✨ Core Features
+This repository contains the **complete frontend source code** for the PitStop app.
 
-Category	Description
-🚗 Real-Time Location Tracking	Uses GPS and Google Maps API to detect user’s live location instantly.
-🗺️ Apple-Style Explore Page	Smooth glass-blur bottom sheet, floating navigation FAB, and modern map interaction.
-⚡ Quick Service Shortcuts	One-tap access to key services: Fuel, Towing, Battery, EV, Hospital, etc.
-🧭 Navigation FAB	Floating navigation button always visible, re-centers map with smooth animation.
-🔍 Search-Optimized Interface	Smart search bar dynamically expands and collapses with smooth Apple-like transitions.
-🌙 Dynamic Theme (Dark / Light)	Seamless switch with adaptive map styling (coming with JSON map style).
-💬 Service Discovery	Easy navigation to nearby assistance providers (planned API integration).
-🪄 Hick’s Law Optimized Design	Minimal choices per screen, maximizing speed and accuracy of decisions.
+-----
 
+## 🌟 Features
 
-⸻
+  - 🔥 **Real-Time Map View**
 
-🧩 Tech Stack
+      - Google Maps integration with dynamic location tracking
+      - Apple-style smooth floating navigation button
+      - Intelligent bottom-sheet layout (Hick’s Law inspired)
 
-Layer	Technology
-Framework	Flutter (Dart 3.x)
-UI Toolkit	Material 3 + Cupertino Design Principles
-Mapping	Google Maps Flutter SDK
-Location	location plugin
-State Management	Stateful Widgets (planned: Provider / Riverpod)
-API Layer	REST (to PitStop backend microservices)
-Animation / Transitions	Implicit + Explicit Flutter Animations
-Styling	Custom Theme via AppColors (from theme/theme.dart)
+  - ⚙️ **Modular Service System**
 
+      - Fuel delivery, towing, battery replacement, puncture repair
+      - EV charging stations, hospitals, pharmacies & oil services
 
-⸻
+  - 🎨 **Beautiful Apple-Style UI**
 
-🗂️ Folder Structure
+      - Clean glassmorphism effects and curved bottom sheets
+      - Light & Dark mode auto-detection
+      - Soft shadows, motion-based transitions, and icon animations
 
+  - 🔔 **Smart Navigation**
+
+      - Floating navigation button always visible
+      - Re-center to current location anytime
+
+  - ⚡ **Optimized for Speed & UX**
+
+      - Lightweight animations
+      - Efficient state updates with minimal rebuilds
+      - Follows Flutter’s performance best practices
+
+-----
+
+## 🗂️ Folder Structure
+
+```
 pitstop_frontend/
+│
+├── android/                  # Android native build files
+├── ios/                      # iOS native build files
+├── assets/                   # App assets (images, icons, logos)
+│   ├── icons/
+│   └── screens/
+│       └── ailment-preview.png
+│
 ├── lib/
-│   ├── main.dart
+│   ├── main.dart             # Entry point
 │   ├── theme/
-│   │   └── theme.dart
+│   │   └── theme.dart        # App-wide color & style definitions
 │   ├── screens/
-│   │   ├── explore_page.dart   ← Apple Maps–style Explore UI
+│   │   ├── explore_page.dart # Google Maps + Quick Services UI
 │   │   ├── home_page.dart
 │   │   ├── orders_page.dart
 │   │   └── profile_page.dart
-│   └── widgets/
-│       ├── service_card.dart
-│       ├── bottom_nav_bar.dart
-│       └── blur_container.dart
-├── android/
-├── ios/
-├── pubspec.yaml
-└── README.md
+│   ├── widgets/              # Reusable components
+│   └── utils/                # Helpers and constants
+│
+├── pubspec.yaml              # Dependencies and assets registration
+├── README.md
+└── LICENSE
+```
 
+-----
 
-⸻
+## 🧱 Tech Stack
 
-🧠 UX Design Principle — Hick’s Law
+| Layer | Technology | Description |
+|:------|:------------|:-------------|
+| **Framework** | Flutter 3.x | Cross-platform mobile development |
+| **Language** | Dart | High-performance and type-safe |
+| **Maps** | Google Maps Flutter SDK | Real-time map visualization |
+| **Location** | Flutter Location Plugin | Device geolocation tracking |
+| **UI/UX** | Apple-style glassmorphism + Material 3 | Clean, modern design |
+| **State Mgmt** | Stateful Widgets | Simple and reactive architecture |
 
-“The time it takes to make a decision increases with the number and complexity of choices.”
+-----
 
-PitStop’s UI follows Hick’s Law by reducing cognitive load:
-	•	Displays only the most relevant services at once.
-	•	Uses clear iconography for instant recognition (Fuel ⛽, Towing 🚚, Battery 🔋).
-	•	Employs progressive disclosure — deeper actions appear only when needed.
-	•	Ensures users act faster during emergencies with fewer distractions.
+## 🎯 Design Philosophy
 
-⸻
+The **PitStop UI** follows:
 
-🧱 Explore Page Architecture
+  - **Apple-grade minimalism** for visual calmness
+  - **Hick’s Law** to reduce cognitive load by grouping related actions
+  - **Zomato-style contrast** for visual clarity and service discoverability
+  - **Tesla-style animation fluidity** for premium feel
 
-Section	Description
-🗺️ Google Map Layer	Shows current location and surrounding POIs with clean Apple-style padding.
-📜 DraggableScrollableSheet	Glass-blur panel that holds the search bar and service options.
-🔍 Search Bar	Expands upward when focused; blurs background smoothly.
-🧭 Floating FAB	Re-centers to user’s current location with smooth transition.
-⚙️ Dynamic Padding	Map padding adjusts automatically when sheet height changes.
+-----
 
+## 📸 App Preview
 
-⸻
+| Explore Page | Dark Mode | Quick Services |
+|:-------------:|:----------:|:---------------:|
+|  |  |  |
 
-🚀 Quick Start Guide
+-----
 
-Prerequisites
-	•	Flutter SDK ≥ 3.3
-	•	Android Studio / Xcode (for emulator)
-	•	Google Maps API Key
-	•	Location permission enabled on your test device
+## 📱 Screen Showcase
 
-Setup Instructions
+A glimpse into the core app flow, from authentication to managing your profile.
 
-# 1️⃣ Clone repository
+| Login Screen | Explore (Home) | My Orders | User Profile |
+|:---:|:---:|:---:|:---:|
+|  |  |  |  |
+
+-----
+
+## 🚀 Getting Started
+
+### 1️⃣ Prerequisites
+
+  - Flutter SDK 3.x+
+  - Android Studio / Xcode
+  - Google Maps API Key
+
+### 2️⃣ Clone Repository
+
+```bash
 git clone https://github.com/srivilliamsai/pitstop_frontend.git
 cd pitstop_frontend
+```
 
-# 2️⃣ Install dependencies
+### 3️⃣ Configure Google Maps
+
+Create a `.env` or local configuration file to insert your Google Maps API keys for both platforms:
+
+  - `android/app/src/main/AndroidManifest.xml`
+  - `ios/Runner/AppDelegate.swift`
+
+### 4️⃣ Install Dependencies
+
+```bash
 flutter pub get
+```
 
-# 3️⃣ Configure Google Maps API keys
-# Android → android/app/src/main/AndroidManifest.xml
-# iOS → ios/Runner/AppDelegate.swift + Info.plist
+### 5️⃣ Run App
 
-# 4️⃣ Run the app
+```bash
 flutter run
+```
 
+-----
 
-⸻
+🧩 **Main Screen — `ExplorePage`**
 
-🧩 Key Dependencies
+  * Displays Google Map + Quick Service Panel
+  * Interactive draggable bottom sheet
+  * Always-visible floating navigation FAB
+  * Auto camera re-center on tap
+  * Clean dark/light adaptive UI
 
+-----
+
+📦 **Dependencies**
+
+```yaml
 dependencies:
   flutter:
     sdk: flutter
-  google_maps_flutter: ^2.2.5
-  location: ^5.0.3
-  cupertino_icons: ^1.0.5
+  google_maps_flutter: ^2.5.0
+  location: ^6.0.0
+  cupertino_icons: ^1.0.8
+```
 
+-----
 
-⸻
+🧠 **Future Enhancements**
 
-🧭 Screens Overview
+  * 🔋 Real-time mechanic tracking
+  * 🧾 Integrated payment gateway
+  * 🧑‍🔧 Mechanic-side dashboard (Flutter Web)
+  * 📊 Analytics & notifications panel
+  * 🔐 Firebase Auth for secure sign-in
 
-Screen	Purpose
-HomePage	Default dashboard with service highlights.
-ExplorePage	Interactive map and quick-service sheet.
-OrdersPage	Shows active & past service requests.
-ProfilePage	User details, preferences, and help options.
+-----
 
+📄 **License**
 
-⸻
+This project is licensed under the MIT License — see the `LICENSE` file for details.
 
-🧰 Design & Theming
+-----
 
-Asset	Description
-logo-light.png	Default light theme logo
-logo-dark.png	Dark theme logo
-AppColors.primary	#FF3B30 (PitStop Crimson Red)
-AppColors.text	Graphite gray / white adaptive
-AppColors.subtext	Muted neutral text tone
-Typography	Poppins / SF Pro Rounded for Apple-style minimalism
+👨‍💻 **Author**
 
+**Sri Villiam Sai** 🚀 Software Developer | Flutter • Spring Boot • OCI Cloud  
+📍 Chennai, India  
+🔗 [LinkedIn](https://www.linkedin.com/in/srivilliamsai/)
+🔗 [GitHub](https://github.com/srivilliamsai)
 
-⸻
+-----
 
-🔄 Future Enhancements
-	•	🔗 Real backend integration with PitStop microservices
-	•	🪄 AI-based Service ETA Prediction
-	•	🗺️ Apple-style dark map JSON theme switching
-	•	🔔 Notification Center for Orders
-	•	💳 In-app BNPL payments
-	•	🧰 Mechanic tracking with socket updates
+🏁 **Acknowledgements**
 
-⸻
+  * Google Maps Flutter Team
+  * Material Design 3 Community
+  * Apple Human Interface Guidelines
+  * Flutter Dev Community
 
-👨‍💻 Developer
-
-Sri Villiam Sai Ayyappan
-B.Tech (Information Technology), SRM Valliammai Engineering College
-💼 Backend & Frontend Developer | UI/UX Designer
-📍 Chennai, India
-
-🔗 LinkedIn
-🔗 GitHub
-
-⸻
-
-🪪 License
-
-This project is licensed under the MIT License.
-You are free to use, modify, and distribute with attribution.
+> “Empowering safe journeys, one tap at a time.” — PitStop Team
