@@ -1,32 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // [STATE MANAGEMENT]
 import 'package:pitstop_frontend/theme/theme.dart';
 import 'package:pitstop_frontend/widgets/fuel_station_card.dart';
 import 'package:pitstop_frontend/screens/service_pages.dart';
 import 'package:pitstop_frontend/screens/search_page.dart';
+import 'package:pitstop_frontend/screens/fuel_station_detail_page.dart';
+import 'package:pitstop_frontend/models/place.dart'; // [CLEAN CODE] Use centralized model
+import 'package:pitstop_frontend/providers/app_provider.dart'; // [STATE MANAGEMENT]
 
-class FuelBunk {
-  final String name;
-  final String logoPath;
-  final String imagePath;
-  final double rating;
-  final String location;
-
-  FuelBunk({
-    required this.name,
-    required this.logoPath,
-    required this.imagePath,
-    required this.rating,
-    required this.location,
-  });
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is FuelBunk && runtimeType == other.runtimeType && name == other.name;
-
-  @override
-  int get hashCode => name.hashCode;
-}
+// [CLEAN CODE] Removed duplicate FuelBunk class definition
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,34 +18,38 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final Map<String, double> _fuelPrices = {
-    'Petrol': 102.63, 'Diesel': 94.24, 'Gas': 55.10, 'EV Charge': 22.50,
-  };
-  final Map<String, String> _fuelUnits = {
-    'Petrol': '/litre', 'Diesel': '/litre', 'Gas': '/kg', 'EV Charge': '/kWh',
-  };
-  String _selectedFuelType = 'Petrol';
+  // [STATE MANAGEMENT] Data moved to AppProvider
 
-  final List<FuelBunk> _bunks = [
-    FuelBunk(name: 'Indian Oil', logoPath: 'lib/assets/images/indian_oil_logo.png', imagePath: 'lib/assets/images/banner1.jpg', rating: 4.2, location: 'Perambur'),
-    FuelBunk(name: 'Shell Bunk', logoPath: 'lib/assets/images/shell_logo.png', imagePath: 'lib/assets/images/banner2.jpg', rating: 4.5, location: 'Madhavaram'),
-    FuelBunk(name: 'HP Petrol', logoPath: 'lib/assets/images/hp_logo.png', imagePath: 'lib/assets/images/banner1.jpg', rating: 4.0, location: 'Anna Nagar'),
-    FuelBunk(name: 'BP Bunk', logoPath: 'lib/assets/images/bp_logo.png', imagePath: 'lib/assets/images/banner2.jpg', rating: 4.1, location: 'T. Nagar'),
-  ];
-
-  late FuelBunk _selectedBunk1;
-  late FuelBunk _selectedBunk2;
+  // [STABILITY FIX] Nullable types to prevent crash if data is empty
+  FuelBunk? _selectedBunk1;
+  FuelBunk? _selectedBunk2;
   int _selectedBrandIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _selectedBunk1 = _bunks[0];
-    _selectedBunk2 = _bunks[1];
+    // [STATE MANAGEMENT] Initialize local state from Provider data
+    // We use post frame callback or listen:false to access provider in initState
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = Provider.of<AppProvider>(context, listen: false);
+      final bunks = provider.bunks;
+      
+      // [STABILITY FIX] Check list length before accessing indices
+      if (bunks.isNotEmpty) {
+        setState(() {
+           _selectedBunk1 = bunks[0];
+           // If we have at least 2, use the second one, else reuse the first
+           _selectedBunk2 = bunks.length > 1 ? bunks[1] : bunks[0]; 
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    // [STATE MANAGEMENT] Watch for changes in AppProvider
+    final provider = Provider.of<AppProvider>(context);
+    
     return Scaffold(
       backgroundColor: const Color(0xFFF4F7FF),
       body: SafeArea(
@@ -72,13 +58,13 @@ class _HomePageState extends State<HomePage> {
           children: [
             _buildHeader(context),
             const SizedBox(height: 24),
-            _buildFuelFinder(context),
+            _buildFuelFinder(context, provider),
             const SizedBox(height: 24),
             _buildSectionTitle(context, "Our Services", showMore: true),
             _buildServicesGrid(context),
             const SizedBox(height: 24),
-            _buildSectionTitle(context, "${_bunks.length} Bunk Around You", showMore: true),
-            _buildNearbyBunks(context),
+            _buildSectionTitle(context, "${provider.bunks.length} Bunk Around You", showMore: true),
+            _buildNearbyBunks(context, provider),
           ],
         ),
       ),
@@ -86,7 +72,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // --- UI Helper Methods ---
-  Widget _buildFuelFinder(BuildContext context) {
+  Widget _buildFuelFinder(BuildContext context, AppProvider provider) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -94,7 +80,10 @@ class _HomePageState extends State<HomePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [_buildFuelTypeDropdown(), _buildFuelPriceDisplay()],
+            children: [
+              _buildFuelTypeDropdown(provider), 
+              _buildFuelPriceDisplay(provider)
+            ],
           ),
           const SizedBox(height: 16),
           GestureDetector(
@@ -116,15 +105,18 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(height: 16),
           _buildBrandFilters(),
           const SizedBox(height: 16),
-          _buildComparisonCard(),
+          _buildComparisonCard(provider),
         ],
       ),
     );
   }
 
-  Widget _buildComparisonCard() {
-    List<FuelBunk> availableBunksFor1 = _bunks.where((b) => b != _selectedBunk2).toList();
-    List<FuelBunk> availableBunksFor2 = _bunks.where((b) => b != _selectedBunk1).toList();
+  Widget _buildComparisonCard(AppProvider provider) {
+    // [STABILITY FIX] Handle potential empty list from provider
+    if (provider.bunks.isEmpty) return const SizedBox(); 
+
+    List<FuelBunk> availableBunksFor1 = provider.bunks.where((b) => b != _selectedBunk2).toList();
+    List<FuelBunk> availableBunksFor2 = provider.bunks.where((b) => b != _selectedBunk1).toList();
 
     return Container(
       decoration: BoxDecoration(
@@ -171,8 +163,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
   
-  // All other helper methods remain the same
-  Widget _buildHeader(BuildContext context) { /* ... same as before ... */ 
+  Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
@@ -203,33 +194,37 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  Widget _buildFuelPriceDisplay() { /* ... same as before ... */ 
+
+  Widget _buildFuelPriceDisplay(AppProvider provider) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
       child: Text(
-        "₹${_fuelPrices[_selectedFuelType]?.toStringAsFixed(2)} ${_fuelUnits[_selectedFuelType] ?? ''}",
+        // [STATE MANAGEMENT] Use data from provider
+        "₹${provider.fuelPrices[provider.selectedFuelType]?.toStringAsFixed(2)} ${provider.fuelUnits[provider.selectedFuelType] ?? ''}",
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: AppColors.text),
       ),
     );
   }
-  Widget _buildFuelTypeDropdown() { /* ... same as before ... */ 
+
+  Widget _buildFuelTypeDropdown(AppProvider provider) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
       child: DropdownButton<String>(
-        value: _selectedFuelType,
+        value: provider.selectedFuelType,
         underline: const SizedBox(),
         icon: const Icon(Icons.keyboard_arrow_down),
         borderRadius: BorderRadius.circular(12),
-        items: _fuelPrices.keys.map((fuel) => DropdownMenuItem(value: fuel, child: Text(fuel))).toList(),
+        items: provider.fuelPrices.keys.map((fuel) => DropdownMenuItem(value: fuel, child: Text(fuel))).toList(),
         onChanged: (value) {
-          if (value != null) setState(() => _selectedFuelType = value);
+          if (value != null) provider.setSelectedFuelType(value); // [STATE MANAGEMENT] helper method
         },
       ),
     );
   }
-  Widget _buildBrandFilters() { /* ... same as before ... */ 
+
+  Widget _buildBrandFilters() {
     final brands = ['Indian Oil', 'Bharath Petroleum', 'HP Petrol'];
     return SizedBox(
       height: 35,
@@ -254,7 +249,9 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  Widget _bunkSelector(FuelBunk selectedBunk, List<FuelBunk> availableBunks, ValueChanged<FuelBunk?> onChanged) { /* ... same as before ... */ 
+
+  Widget _bunkSelector(FuelBunk? selectedBunk, List<FuelBunk> availableBunks, ValueChanged<FuelBunk?> onChanged) {
+    if (selectedBunk == null) return const SizedBox();
     return Column(
       children: [
         Image.asset(selectedBunk.logoPath, height: 40),
@@ -274,7 +271,8 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
-  Widget _buildSectionTitle(BuildContext context, String title, {bool showMore = false}) { /* ... same as before ... */ 
+  
+  Widget _buildSectionTitle(BuildContext context, String title, {bool showMore = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
@@ -286,7 +284,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  Widget _buildServicesGrid(BuildContext context) { /* ... same as before ... */ 
+
+  Widget _buildServicesGrid(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: GridView.count(
@@ -308,7 +307,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  Widget _customServiceIcon(String title, String iconPath, VoidCallback onTap) { /* ... same as before ... */ 
+
+  Widget _customServiceIcon(String title, String iconPath, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -328,20 +328,36 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  Widget _buildNearbyBunks(BuildContext context) { /* ... same as before ... */ 
+
+  Widget _buildNearbyBunks(BuildContext context, AppProvider provider) {
     return SizedBox(
       height: 250,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: _bunks.length,
+        itemCount: provider.bunks.length,
         itemBuilder: (context, index) {
-          final station = _bunks[index];
+          final station = provider.bunks[index];
           return FuelStationCard(
-            imagePath: station.imagePath,
+            // [FIX] Map imageGallery to single imagePath
+            imagePath: station.imageGallery.isNotEmpty ? station.imageGallery.first : 'lib/assets/images/banner1.jpg',
+            // [CLEAN CODE FIX] Passing navigation logic as a callback
+            onTap: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => FuelStationDetailPage(
+                    name: station.name,
+                    image: station.imageGallery.isNotEmpty ? station.imageGallery.first : 'lib/assets/images/banner1.jpg',
+                    rating: station.rating,
+                  ),
+                ),
+              );
+            },
             name: station.name,
             rating: station.rating,
-            location: station.location,
+            // [FIX] Map address to location
+            location: station.address,
           );
         },
       ),

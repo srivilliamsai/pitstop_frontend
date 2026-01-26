@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async'; // [PERFORMANCE FIX] Required for Timer
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pitstop_frontend/models/place.dart';
 import 'package:pitstop_frontend/screens/details_page.dart';
@@ -19,6 +20,7 @@ class _SearchPageState extends State<SearchPage> {
   List<Place> _filteredItems = [];
   Set<Marker> _markers = {};
   GoogleMapController? _mapController;
+  Timer? _debounce; // [PERFORMANCE FIX] Debounce Timer
   
   final List<String> _categories = ["Petrol", "Puncture", "Towing", "Hospital", "Pharmacy", "EV Charge"];
   String? _selectedCategory;
@@ -32,12 +34,18 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _onSearchChanged() {
-    final query = _searchController.text.toLowerCase();
-    setState(() {
-      _filteredItems = _allItems.where((item) =>
-          item.name.toLowerCase().contains(query) ||
-          item.category.toLowerCase().contains(query)).toList();
-      _updateMarkers();
+    // [PERFORMANCE FIX] Cancel previous timer if active
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+
+    // [PERFORMANCE FIX] Wait 500ms before executing search logic
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      final query = _searchController.text.toLowerCase();
+      setState(() {
+        _filteredItems = _allItems.where((item) =>
+            item.name.toLowerCase().contains(query) ||
+            item.category.toLowerCase().contains(query)).toList();
+        _updateMarkers();
+      });
     });
   }
 
@@ -211,6 +219,8 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void dispose() {
     _searchController.removeListener(_onSearchChanged);
+    // [PERFORMANCE FIX] Dispose timer to prevent memory leaks
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
     _searchController.dispose();
     super.dispose();
   }

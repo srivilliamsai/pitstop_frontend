@@ -54,6 +54,7 @@ flutter:
 
   assets:
     - lib/assets/images/
+    - lib/assets/map_styles/dark_mode_style.json
 
   fonts:
     - family: Roboto

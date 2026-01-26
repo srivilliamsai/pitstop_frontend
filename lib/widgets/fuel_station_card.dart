@@ -1,13 +1,11 @@
-// lib/widgets/fuel_station_card.dart
 import 'package:flutter/material.dart';
-import 'package:pitstop_frontend/screens/fuel_station_detail_page.dart';
-import 'package:pitstop_frontend/theme/theme.dart';
 
 class FuelStationCard extends StatelessWidget {
   final String imagePath;
   final String name;
   final double rating;
   final String location;
+  final VoidCallback? onTap; // [CLEAN CODE FIX] Decoupled navigation logic
 
   const FuelStationCard({
     super.key,
@@ -15,6 +13,7 @@ class FuelStationCard extends StatelessWidget {
     required this.name,
     required this.rating,
     required this.location,
+    this.onTap, // [CLEAN CODE FIX] Accept callback
   });
 
   @override
@@ -22,19 +21,7 @@ class FuelStationCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return GestureDetector(
-      onTap: () {
-        // CRITICAL FIX: Pass the station's data to the detail page.
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => FuelStationDetailPage(
-              name: name,
-              image: imagePath,
-              rating: rating,
-            ),
-          ),
-        );
-      },
+      onTap: onTap, // [CLEAN CODE FIX] Use the callback
       child: Container(
         width: 200,
         margin: const EdgeInsets.only(right: 16),
