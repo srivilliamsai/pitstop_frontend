@@ -272,7 +272,7 @@ class _ExplorePageState extends State<ExplorePage> {
           children: [
             CircleAvatar(
               radius: 32,
-              backgroundColor: AppColors.primary.withOpacity(0.1),
+              backgroundColor: AppColors.primary.withValues(alpha: 0.1),
               child: Icon(s.icon, color: AppColors.primary, size: 36),
             ),
             const SizedBox(height: 8),

@@ -3,9 +3,7 @@ import 'dart:async'; // [PERFORMANCE FIX] Required for Timer
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pitstop_frontend/models/place.dart';
 import 'package:pitstop_frontend/screens/details_page.dart';
-import 'package:pitstop_frontend/theme/theme.dart'; // <-- FIX: Added missing theme import
-
-// The invalid 'package.dart' import has been removed.
+import 'package:pitstop_frontend/theme/theme.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -19,11 +17,12 @@ class _SearchPageState extends State<SearchPage> {
   final List<Place> _allItems = _getSearchableData();
   List<Place> _filteredItems = [];
   Set<Marker> _markers = {};
-  GoogleMapController? _mapController;
+  // Removed unused _mapController
   Timer? _debounce; // [PERFORMANCE FIX] Debounce Timer
   
   final List<String> _categories = ["Petrol", "Puncture", "Towing", "Hospital", "Pharmacy", "EV Charge"];
   String? _selectedCategory;
+  final LatLng _chennaiLocation = const LatLng(13.0827, 80.2707);
 
   @override
   void initState() {
@@ -96,9 +95,9 @@ class _SearchPageState extends State<SearchPage> {
       body: Stack(
         children: [
           GoogleMap(
-            initialCameraPosition: const CameraPosition(target: LatLng(13.0827, 80.2707), zoom: 12),
+            initialCameraPosition: CameraPosition(target: _chennaiLocation, zoom: 12),
             markers: _markers,
-            onMapCreated: (controller) => _mapController = controller,
+            // Removed onMapCreated to fix unused_field warning
           ),
           _buildSearchUI(),
           _buildResultsSheet(),

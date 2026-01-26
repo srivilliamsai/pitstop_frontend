@@ -8,18 +8,17 @@ class FuelStationDetailPage extends StatefulWidget {
   final double rating;
 
   const FuelStationDetailPage({
-    Key? key,
+    super.key,
     required this.name,
     required this.image,
     required this.rating,
-  }) : super(key: key);
+  });
 
   @override
   State<FuelStationDetailPage> createState() => _FuelStationDetailPageState();
 }
 
 class _FuelStationDetailPageState extends State<FuelStationDetailPage> {
-  late GoogleMapController _mapController;
   final LatLng _stationLocation = const LatLng(13.0827, 80.2707); // Default: Chennai
   final LatLng _userLocation = const LatLng(13.05, 80.25); // Dummy user location
 
@@ -29,11 +28,6 @@ class _FuelStationDetailPageState extends State<FuelStationDetailPage> {
     if (await canLaunchUrl(mapsUri)) {
       await launchUrl(mapsUri, mode: LaunchMode.externalApplication);
     }
-  }
-
-  /// 🗺 Initializes map controller
-  void _onMapCreated(GoogleMapController controller) {
-    _mapController = controller;
   }
 
   @override
@@ -124,7 +118,6 @@ class _FuelStationDetailPageState extends State<FuelStationDetailPage> {
                 child: SizedBox(
                   height: 250,
                   child: GoogleMap(
-                    onMapCreated: _onMapCreated,
                     initialCameraPosition: CameraPosition(
                       target: _stationLocation,
                       zoom: 13.5,

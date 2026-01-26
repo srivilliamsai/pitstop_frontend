@@ -25,8 +25,7 @@ class AppTheme {
       fontFamily: 'Roboto',
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
-        background: AppColors.background,
-        surface: AppColors.card,
+        surface: AppColors.background, // Used to be background
       ),
 
       // AppBar Theme
@@ -69,7 +68,7 @@ class AppTheme {
         elevation: 1,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: AppColors.border.withOpacity(0.5)),
+          side: BorderSide(color: AppColors.border.withValues(alpha: 0.5)),
         ),
         shadowColor: AppColors.shadow,
       ),

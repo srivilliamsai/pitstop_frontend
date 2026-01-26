@@ -4,7 +4,7 @@ import 'package:pitstop_frontend/providers/app_provider.dart';
 import 'package:pitstop_frontend/theme/theme.dart';
 
 class FuelDashboardPage extends StatefulWidget {
-  const FuelDashboardPage({Key? key}) : super(key: key);
+  const FuelDashboardPage({super.key});
 
   @override
   State<FuelDashboardPage> createState() => _FuelDashboardPageState();
@@ -42,7 +42,7 @@ class _FuelDashboardPageState extends State<FuelDashboardPage> with SingleTicker
           _buildFuelTabs(),
           const SizedBox(height: 24),
           // You would pass the selected bunks to a comparison chart widget
-          Text("Comparing: ${appProvider.selectedBunks.join(', ')}"),
+          Text("Comparing: ${appProvider.selectedBunkNames.join(', ')}"),
         ],
       ),
     );
@@ -53,12 +53,12 @@ class _FuelDashboardPageState extends State<FuelDashboardPage> with SingleTicker
       spacing: 8.0,
       runSpacing: 8.0,
       children: allBunks.map((bunk) {
-        final isSelected = appProvider.selectedBunks.contains(bunk);
+        final isSelected = appProvider.selectedBunkNames.contains(bunk);
         return ChoiceChip(
           label: Text(bunk),
           selected: isSelected,
           onSelected: (_) => appProvider.toggleBunkSelection(bunk),
-          selectedColor: AppColors.primary.withOpacity(0.1),
+          selectedColor: AppColors.primary.withValues(alpha: 0.1),
           labelStyle: TextStyle(
               fontWeight: FontWeight.bold,
               color: isSelected ? AppColors.primary : AppColors.text),
