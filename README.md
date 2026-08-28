@@ -1,43 +1,43 @@
-# 🚗 PitStop Frontend
+#  PitStop Frontend
 
 > **Next-Generation On-Demand Roadside Assistance App** \> Fuel Delivery • Emergency Support • EV Charging • Smart Navigation
 
 -----
 
-## 🧭 Overview
+##  Overview
 
-**PitStop** is a modern **Flutter-based mobile application** designed to provide instant on-road assistance for drivers — whether you’re out of fuel, have a flat tire, or need emergency medical help.  
+**PitStop** is a modern **Flutter-based mobile application** designed to provide instant on-road assistance for drivers — whether you’re out of fuel, have a flat tire, or need emergency medical help.
 The app delivers **real-time location services**, **quick service booking**, and a **Zomato-style UI** built with **Apple-inspired design principles** and **Hick’s Law–optimized interactions**.
 
 This repository contains the **complete frontend source code** for the PitStop app.
 
 -----
 
-## 🌟 Features
+##  Features
 
-  - 🔥 **Real-Time Map View**
+  -  **Real-Time Map View**
 
       - Google Maps integration with dynamic location tracking
       - Apple-style smooth floating navigation button
       - Intelligent bottom-sheet layout (Hick’s Law inspired)
 
-  - ⚙️ **Modular Service System**
+  - ️ **Modular Service System**
 
       - Fuel delivery, towing, battery replacement, puncture repair
       - EV charging stations, hospitals, pharmacies & oil services
 
-  - 🎨 **Beautiful Apple-Style UI**
+  -  **Beautiful Apple-Style UI**
 
       - Clean glassmorphism effects and curved bottom sheets
       - Light & Dark mode auto-detection
       - Soft shadows, motion-based transitions, and icon animations
 
-  - 🔔 **Smart Navigation**
+  -  **Smart Navigation**
 
       - Floating navigation button always visible
       - Re-center to current location anytime
 
-  - ⚡ **Optimized for Speed & UX**
+  -  **Optimized for Speed & UX**
 
       - Lightweight animations
       - Efficient state updates with minimal rebuilds
@@ -45,7 +45,7 @@ This repository contains the **complete frontend source code** for the PitStop a
 
 -----
 
-## 🗂️ Folder Structure
+## ️ Folder Structure
 
 ```
 pitstop_frontend/
@@ -76,7 +76,7 @@ pitstop_frontend/
 
 -----
 
-## 🧱 Tech Stack
+##  Tech Stack
 
 | Layer | Technology | Description |
 |:------|:------------|:-------------|
@@ -89,7 +89,7 @@ pitstop_frontend/
 
 -----
 
-## 🎯 Design Philosophy
+##  Design Philosophy
 
 The **PitStop UI** follows:
 
@@ -100,7 +100,7 @@ The **PitStop UI** follows:
 
 -----
 
-## 📸 App Preview
+##  App Preview
 
 | Explore Page | Dark Mode | Quick Services |
 |:-------------:|:----------:|:---------------:|
@@ -108,7 +108,7 @@ The **PitStop UI** follows:
 
 -----
 
-## 📱 Screen Showcase
+##  Screen Showcase
 
 A glimpse into the core app flow, from authentication to managing your profile.
 
@@ -118,7 +118,7 @@ A glimpse into the core app flow, from authentication to managing your profile.
 
 -----
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1️⃣ Prerequisites
 
@@ -154,7 +154,7 @@ flutter run
 
 -----
 
-🧩 **Main Screen — `ExplorePage`**
+ **Main Screen — `ExplorePage`**
 
   * Displays Google Map + Quick Service Panel
   * Interactive draggable bottom sheet
@@ -164,7 +164,7 @@ flutter run
 
 -----
 
-📦 **Dependencies**
+ **Dependencies**
 
 ```yaml
 dependencies:
@@ -177,32 +177,32 @@ dependencies:
 
 -----
 
-🧠 **Future Enhancements**
+ **Future Enhancements**
 
-  * 🔋 Real-time mechanic tracking
-  * 🧾 Integrated payment gateway
-  * 🧑‍🔧 Mechanic-side dashboard (Flutter Web)
-  * 📊 Analytics & notifications panel
-  * 🔐 Firebase Auth for secure sign-in
+  *  Real-time mechanic tracking
+  *  Integrated payment gateway
+  * ‍ Mechanic-side dashboard (Flutter Web)
+  *  Analytics & notifications panel
+  *  Firebase Auth for secure sign-in
 
 -----
 
-📄 **License**
+ **License**
 
 This project is licensed under the MIT License — see the `LICENSE` file for details.
 
 -----
 
-👨‍💻 **Author**
+‍ **Author**
 
-**Sri Villiam Sai** 🚀 Software Developer | Flutter • Spring Boot • OCI Cloud  
-📍 Chennai, India  
-🔗 [LinkedIn](https://www.linkedin.com/in/srivilliamsai/)
-🔗 [GitHub](https://github.com/srivilliamsai)
+**Sri Villiam Sai**  Software Developer | Flutter • Spring Boot • OCI Cloud
+ Chennai, India
+ [LinkedIn](https://www.linkedin.com/in/srivilliamsai/)
+ [GitHub](https://github.com/srivilliamsai)
 
 -----
 
-🏁 **Acknowledgements**
+ **Acknowledgements**
 
   * Google Maps Flutter Team
   * Material Design 3 Community
