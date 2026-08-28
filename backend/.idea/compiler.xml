@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="config-server" />
+        <module name="discovery-server" />
+        <module name="mechanic-service" />
+        <module name="payment-service" />
+        <module name="emergency-service" />
+        <module name="analytics-service" />
+        <module name="api-gateway" />
+        <module name="common-lib" />
+        <module name="order-service" />
+        <module name="user-service" />
+        <module name="notification-service" />
+        <module name="bnpl-service" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="bnpl-service" options="" />
+      <module name="emergency-service" options="" />
+      <module name="notification-service" options="" />
+      <module name="order-service" options="" />
+      <module name="payment-service" options="" />
+    </option>
+  </component>
+</project>
